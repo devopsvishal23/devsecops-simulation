@@ -1,0 +1,65 @@
+# ============================================================
+# Pre-Commit Hook Configuration
+# ============================================================
+# This file defines the hooks that run automatically before
+# every git commit. If any hook fails, the commit is BLOCKED.
+#
+# How it works:
+# 1. Developer runs: git commit -m "some message"
+# 2. Pre-commit intercepts the commit
+# 3. Runs all hooks defined below against staged files
+# 4. If ALL hooks pass → commit proceeds
+# 5. If ANY hook fails → commit is BLOCKED with explanation
+#
+# To install these hooks into your local git repository:
+# pre-commit install
+# ============================================================
+
+repos:
+
+  # ---- Basic Code Quality Hooks ----
+  # These come from the pre-commit project's official hook library
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+
+      # Removes trailing whitespace from all files
+      - id: trailing-whitespace
+        name: Remove trailing whitespace
+
+      # Ensures every file ends with exactly one newline
+      - id: end-of-file-fixer
+        name: Fix end of files
+
+      # Checks that YAML files (like this one) are valid syntax
+      - id: check-yaml
+        name: Check YAML syntax
+
+      # Prevents large files from being accidentally committed
+      # (e.g. a database file, a log file, a compiled binary)
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=500']
+
+  # ---- Secret Detection Hook ----
+  # detect-secrets scans for hardcoded credentials before commit
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        name: Detect hardcoded secrets
+        # ============================================================
+        # What detect-secrets looks for:
+        # - AWS Access Keys (AKIA...)
+        # - Private keys (-----BEGIN RSA PRIVATE KEY-----)
+        # - Generic API keys and tokens
+        # - Passwords in configuration files
+        # - High entropy strings (random-looking strings that are
+        #   likely to be secrets)
+        # - Basic auth credentials in URLs
+        # ============================================================
+        args: ['--baseline', '.secrets.baseline']
+        # The baseline file records known/accepted secrets so that
+        # detect-secrets doesn't keep blocking the same finding
+        # after you've reviewed and accepted it.
+        # We will create this baseline file in the next step.
