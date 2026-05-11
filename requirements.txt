@@ -1,0 +1,12 @@
+# These are the Python libraries our application needs.
+# Flask: the web framework
+# flask-cors: allows browsers from other origins to call our API
+
+flask==2.3.3
+flask-cors==4.0.0
+
+# !! SECURITY WEAKNESS 6: Outdated dependency with known CVE !!
+# This version of Werkzeug has a known vulnerability.
+# Our SCA tool (pip-audit) will catch this in Session 3.
+werkzeug==2.3.6
+

@@ -1,0 +1,58 @@
+# ============================================================
+# Kubernetes Deployment — Deploys our TaskManager to Kubernetes
+# ============================================================
+# This file tells Kubernetes how to run our application.
+# It has intentional misconfigurations that Checkov will catch.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: taskmanager
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: taskmanager
+  template:
+    metadata:
+      labels:
+        app: taskmanager
+    spec:
+      containers:
+      - name: taskmanager
+        image: taskmanager:latest
+
+        # !! MISCONFIGURATION 1: No resource limits !!
+        # Without limits, one container can consume all node resources.
+        # Checkov will flag this. Fix: add resources.limits and resources.requests.
+
+        ports:
+        - containerPort: 5000
+
+        # !! MISCONFIGURATION 2: Privilege escalation allowed !!
+        # By default, containers can escalate privileges.
+        # Fix: set allowPrivilegeEscalation: false
+        securityContext:
+          privileged: true
+
+        env:
+        # !! MISCONFIGURATION 3: Secret in plain text environment variable !!
+        # Secrets should come from Vault or Kubernetes Secrets, not plain env vars.
+        - name: SECRET_KEY
+          value: "hardcoded-secret-in-k8s-manifest"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: taskmanager-service
+spec:
+  selector:
+    app: taskmanager
+  ports:
+  - port: 80
+    targetPort: 5000
+  # !! MISCONFIGURATION 4: LoadBalancer exposes service to internet !!
+  # Use ClusterIP for internal services. LoadBalancer creates a public IP.
+  type: LoadBalancer
