@@ -1,0 +1,979 @@
+{
+  "version": "2.6.2",
+  "summary": {
+    "title": "TaskManager API Threat Model",
+    "owner": "Vishal Shinde",
+    "description": "Threat model for the DevSecOps simulation TaskManager Flask API",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "TaskManager Data Flow",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.6.2",
+        "cells": [
+          {
+            "position": {
+              "x": 639.9999999999995,
+              "y": 20.000000000001677
+            },
+            "size": {
+              "width": 450,
+              "height": 380
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "zIndex": -1,
+            "id": "23465fe3-e2db-4000-b3b4-942882bc67db",
+            "data": {
+              "type": "tm.BoundaryBox",
+              "name": "Trust Boundary",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false,
+              "crossingFlows": [
+                "b7ed99dd-719f-4aa8-bed0-a1f1ef147d79",
+                "56b90f91-2c11-41db-a217-536e3ffd2f29"
+              ],
+              "containedElements": [
+                "514c9fb5-caab-4591-ba26-6e9ac58f1fcd",
+                "2c6b7599-e7b4-4807-9102-4d657a3cfc22"
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 20,
+              "y": 140
+            },
+            "size": {
+              "width": 130,
+              "height": 70
+            },
+            "attrs": {
+              "text": {
+                "text": "Browser/API Client"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "zIndex": 1,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "e73ac38d-1126-4309-88a1-49d40d9e4f00"
+                },
+                {
+                  "group": "right",
+                  "id": "dbcdb805-67a9-45dc-91e7-d488f5fa2ad4"
+                },
+                {
+                  "group": "bottom",
+                  "id": "327fc50a-0874-4ee9-8431-15135d2c78f4"
+                },
+                {
+                  "group": "left",
+                  "id": "63381bd6-c6e4-4885-b075-df52c5b9337f"
+                }
+              ]
+            },
+            "id": "31e4a2d2-1c50-4212-8a5a-406b960bc825",
+            "data": {
+              "type": "tm.Actor",
+              "name": "Browser/API Client",
+              "description": "",
+              "isTrustBoundary": false,
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Authenticated Request",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "23465fe3-e2db-4000-b3b4-942882bc67db"
+              ]
+            },
+            "labels": [
+              "Authenticated Request"
+            ],
+            "id": "b7ed99dd-719f-4aa8-bed0-a1f1ef147d79",
+            "source": {
+              "x": 392,
+              "y": 160
+            },
+            "target": {
+              "cell": "514c9fb5-caab-4591-ba26-6e9ac58f1fcd",
+              "port": "446167e6-fa56-4c68-8b43-4a1bdf999f06"
+            },
+            "vertices": [
+              {
+                "x": 490,
+                "y": 160
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "SQL Query",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              "SQL Query"
+            ],
+            "id": "8bf69bef-93ed-46c7-8b18-0bc1158f82f1",
+            "source": {
+              "x": 720,
+              "y": 165
+            },
+            "target": {
+              "x": 890,
+              "y": 170
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "Query Result",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": []
+            },
+            "labels": [
+              "Query Result"
+            ],
+            "id": "58ef82f0-cbaa-4eb1-846f-dc6cc3d861c4",
+            "source": {
+              "cell": "514c9fb5-caab-4591-ba26-6e9ac58f1fcd",
+              "port": "5a992ba2-ac4f-4fc5-bd36-95a103365e7d"
+            },
+            "target": {
+              "cell": "2c6b7599-e7b4-4807-9102-4d657a3cfc22",
+              "port": "61748ae2-cdd1-4974-9098-a67248e75371"
+            },
+            "vertices": [
+              {
+                "x": 900,
+                "y": 340
+              },
+              {
+                "x": 963,
+                "y": 370
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP Response",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [],
+              "trustBoundaryIds": [
+                "23465fe3-e2db-4000-b3b4-942882bc67db"
+              ]
+            },
+            "labels": [
+              "HTTP Response"
+            ],
+            "id": "56b90f91-2c11-41db-a217-536e3ffd2f29",
+            "source": {
+              "x": 80,
+              "y": 210
+            },
+            "target": {
+              "cell": "514c9fb5-caab-4591-ba26-6e9ac58f1fcd",
+              "port": "446167e6-fa56-4c68-8b43-4a1bdf999f06"
+            },
+            "vertices": [
+              {
+                "x": 280,
+                "y": 290
+              },
+              {
+                "x": 330,
+                "y": 260
+              },
+              {
+                "x": 400,
+                "y": 260
+              }
+            ]
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP Request",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "",
+              "threats": [
+                {
+                  "id": "69815f0b-e25a-4706-a597-edbb52b3746f",
+                  "title": "Attacker spoofs user identity",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Attacker sends API requests pretending to be a legitimate user. Our app has no authentication — any request is accepted without verifying who sent it.",
+                  "mitigation": "Implement JWT token authentication on every endpoint. Validate token signature and expiry on every request.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                },
+                {
+                  "id": "136b6857-5746-411a-8da0-69161f837971",
+                  "title": "Internal system details exposed in error messages",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "The GET /tasks/<id> endpoint returns the database filename and raw SQL query in its 404 error response. This tells an attacker exactly how the backend is structured.",
+                  "mitigation": "Return generic error messages to clients. Log detailed errors server-side only. Never expose database names, query strings or stack traces in API responses.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 4,
+                  "score": ""
+                },
+                {
+                  "id": "8e6b3f7b-2fea-4eee-835d-4b401ed569e3",
+                  "title": "API flood causes service unavailability",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "description": "There is no rate limiting on any endpoint. An attacker can send thousands of requests per second, consuming all server resources and making the API unavailable to legitimate users.",
+                  "mitigation": " Implement rate limiting — maximum 100 requests per minute per IP. Return HTTP 429 when limit is exceeded.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 5,
+                  "score": ""
+                }
+              ],
+              "trustBoundaryIds": [],
+              "threatFrequency": {
+                "tampering": 1,
+                "informationDisclosure": 1,
+                "denialOfService": 1
+              }
+            },
+            "labels": [
+              "HTTP Request"
+            ],
+            "id": "905c3c76-7ceb-4989-9222-cf65a2d44510",
+            "source": {
+              "x": 150,
+              "y": 150
+            },
+            "target": {
+              "cell": "42a70e7f-da27-468e-8ce7-8dc96ab923e0",
+              "port": "446167e6-fa56-4c68-8b43-4a1bdf999f06"
+            },
+            "vertices": [
+              {
+                "x": 250,
+                "y": 150
+              }
+            ]
+          },
+          {
+            "position": {
+              "x": 640,
+              "y": 120
+            },
+            "size": {
+              "width": 80,
+              "height": 90
+            },
+            "attrs": {
+              "text": {
+                "text": "Flask API"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 16,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "53126713-49f0-40f1-ad75-4211252cbfa3"
+                },
+                {
+                  "group": "right",
+                  "id": "009c829c-91cf-42c8-8fc2-1328856c5581"
+                },
+                {
+                  "group": "bottom",
+                  "id": "5a992ba2-ac4f-4fc5-bd36-95a103365e7d"
+                },
+                {
+                  "group": "left",
+                  "id": "446167e6-fa56-4c68-8b43-4a1bdf999f06"
+                }
+              ]
+            },
+            "id": "514c9fb5-caab-4591-ba26-6e9ac58f1fcd",
+            "data": {
+              "type": "tm.Process",
+              "name": "Flask API",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "2774723c-fd88-4023-be0b-08da7e5c3325",
+                  "title": "Any user can access any other user's tasks",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of privilege",
+                  "description": "GET /tasks/1 returns task 1 regardless of who is asking. There is no check that the requesting user owns that task. Any user can access, modify or delete any other user's data by changing the ID in the URL. This is IDOR — Insecure Direct Object Reference.",
+                  "mitigation": "After authentication is added, verify that task.created_by matches the authenticated user's identity before returning or modifying any task.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 6,
+                  "score": ""
+                },
+                {
+                  "id": "fffdc0e2-5573-473a-b862-b9494577add3",
+                  "title": "Debug mode exposes stack traces in production",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Information disclosure",
+                  "description": "Flask is running with debug=True. In production this means any unhandled error returns a full interactive stack trace to the browser, exposing internal code structure, variable values and file paths to any attacker who triggers an error.",
+                  "mitigation": "Set debug=False in production. Load via environment variable: app.run(debug=os.environ.get('FLASK_DEBUG', False))",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 7,
+                  "score": ""
+                },
+                {
+                  "id": "432b84ed-1d99-40bc-9c8e-cff8c8b525dc",
+                  "title": "Hardcoded secret key in source code",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Information disclosure",
+                  "description": "The Flask SECRET_KEY is hardcoded as 'hardcoded-secret-key-123' directly in app.py. Anyone with read access to the source code repository can see this key and use it to forge session tokens.",
+                  "mitigation": "Load secret key from environment variable or secrets manager. Never hardcode credentials in source code. Use detect-secrets pre-commit hook to catch this before commit.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 8,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 0,
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 2,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 1
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 282,
+              "y": 110
+            },
+            "size": {
+              "width": 140,
+              "height": 100
+            },
+            "attrs": {
+              "text": {
+                "text": "Authentication \nHandler"
+              },
+              "body": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "zIndex": 17,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "53126713-49f0-40f1-ad75-4211252cbfa3"
+                },
+                {
+                  "group": "right",
+                  "id": "009c829c-91cf-42c8-8fc2-1328856c5581"
+                },
+                {
+                  "group": "bottom",
+                  "id": "5a992ba2-ac4f-4fc5-bd36-95a103365e7d"
+                },
+                {
+                  "group": "left",
+                  "id": "446167e6-fa56-4c68-8b43-4a1bdf999f06"
+                }
+              ]
+            },
+            "id": "42a70e7f-da27-468e-8ce7-8dc96ab923e0",
+            "data": {
+              "type": "tm.Process",
+              "name": "Authentication \nHandler",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "ce4a46f8-5146-42e1-925f-cbd6b3bbe856",
+                  "title": "SQL Injection via request body",
+                  "status": "Open",
+                  "severity": "Critical",
+                  "type": "Tampering",
+                  "description": " Attacker sends a malicious title field like ' OR '1'='1 in the POST /tasks body. The app inserts this directly into a SQL query without sanitisation, allowing the attacker to manipulate the database.",
+                  "mitigation": "Use parameterised queries throughout. Never concatenate user input into SQL strings.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": ""
+                },
+                {
+                  "id": "fa5c5adb-0456-4488-84ed-b00d0bcf5bad",
+                  "title": "No audit log of user actions",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Repudiation",
+                  "description": "The app has no audit logging. A user can create, update or delete tasks and completely deny doing so. There is no record of who did what and when.",
+                  "mitigation": "Add structured audit logging on all create, update and delete operations. Log user identity, action, timestamp and affected resource.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 3,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "spoofing": 1,
+                "tampering": 1,
+                "repudiation": 1,
+                "informationDisclosure": 0,
+                "denialOfService": 0,
+                "elevationOfPrivilege": 0
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 903,
+              "y": 135
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "SQLite Database"
+              },
+              "topLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "stroke": "red",
+                "strokeWidth": 2.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "zIndex": 18,
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "240f7037-203e-4353-b6bd-52728a35bb45"
+                },
+                {
+                  "group": "right",
+                  "id": "405c1090-123c-4031-a0f9-bf19a8ab2e72"
+                },
+                {
+                  "group": "bottom",
+                  "id": "61748ae2-cdd1-4974-9098-a67248e75371"
+                },
+                {
+                  "group": "left",
+                  "id": "c9ad67ae-775a-48da-8fb0-8c5a5a1ac6c8"
+                }
+              ]
+            },
+            "id": "2c6b7599-e7b4-4807-9102-4d657a3cfc22",
+            "data": {
+              "type": "tm.Store",
+              "name": "SQLite Database",
+              "description": "",
+              "outOfScope": false,
+              "isTrustBoundary": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "e5c441d7-8d8e-4df0-8e32-11b442878db4",
+                  "title": "Database file accessible to any process on the server",
+                  "status": "Open",
+                  "severity": "TBD",
+                  "type": "Information disclosure",
+                  "description": "The SQLite database is stored as a plain file (taskmanager.db) in the application directory. Any process running on the same server with read access to that directory can read all task data directly without going through the API.",
+                  "mitigation": "Restrict file permissions to the application user only (chmod 600). In production, migrate to a proper database server (PostgreSQL) with network-level access controls.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 9,
+                  "score": ""
+                },
+                {
+                  "id": "62e56073-83ab-4ee0-a856-50808184577e",
+                  "title": "No limit on concurrent database connections",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Denial of service",
+                  "description": "The app opens a new database connection on every request with no connection pooling or limits. Under high load this can exhaust available file descriptors and crash the application.",
+                  "mitigation": "Implement connection pooling. Use Flask's g object to manage a single connection per request lifecycle.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 10,
+                  "score": ""
+                }
+              ],
+              "threatFrequency": {
+                "tampering": 0,
+                "repudiation": 0,
+                "informationDisclosure": 1,
+                "denialOfService": 1
+              }
+            },
+            "tools": {
+              "items": [
+                "boundary",
+                "button-remove"
+              ],
+              "name": null
+            }
+          }
+        ],
+        "description": "TaskManager Data Flow"
+      }
+    ],
+    "diagramTop": 2,
+    "reviewer": "",
+    "threatTop": 10
+  }
+}
