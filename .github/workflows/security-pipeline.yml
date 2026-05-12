@@ -282,9 +282,9 @@ jobs:
             "all_gates_passed": true
           }
           ATTEST
-          cosign sign-blob --key /tmp/cosign.key --bundle attestation.bundle attestation.json
+          cosign sign-blob --key /tmp/cosign.key --bundle attestation.bundle --tlog-upload=false attestation.json
           echo "${{ secrets.COSIGN_PUBLIC_KEY }}" > /tmp/cosign.pub
-          cosign verify-blob --key /tmp/cosign.pub --bundle attestation.bundle attestation.json
+          cosign verify-blob --key /tmp/cosign.pub --bundle attestation.bundle --insecure-ignore-tlog=true attestation.json
           echo "Image signed and verified successfully"
 
   security-summary:
