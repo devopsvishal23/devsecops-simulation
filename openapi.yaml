@@ -1,0 +1,124 @@
+openapi: 3.0.0
+info:
+  title: TaskManager API
+  description: DevSecOps simulation task management API
+  version: 1.0.0
+
+servers:
+  - url: http://host.docker.internal:5000
+    description: Local development server
+
+paths:
+  /health:
+    get:
+      summary: Health check
+      operationId: healthCheck
+      responses:
+        '200':
+          description: Application is healthy
+
+  /tasks:
+    get:
+      summary: Get all tasks
+      operationId: getTasks
+      responses:
+        '200':
+          description: List of tasks
+
+    post:
+      summary: Create a task
+      operationId: createTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+              properties:
+                title:
+                  type: string
+                  example: "My task"
+                description:
+                  type: string
+                  example: "Task description"
+                created_by:
+                  type: string
+                  example: "vishal"
+      responses:
+        '201':
+          description: Task created
+        '400':
+          description: Bad request
+
+  /tasks/{taskId}:
+    get:
+      summary: Get a task by ID
+      operationId: getTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Task found
+        '404':
+          description: Task not found
+
+    put:
+      summary: Update a task
+      operationId: updateTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                status:
+                  type: string
+                  enum: [pending, in-progress, completed]
+      responses:
+        '200':
+          description: Task updated
+
+    delete:
+      summary: Delete a task
+      operationId: deleteTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Task deleted
+
+  /tasks/search:
+    get:
+      summary: Search tasks
+      operationId: searchTasks
+      parameters:
+        - name: q
+          in: query
+          required: false
+          schema:
+            type: string
+            example: "meeting"
+      responses:
+        '200':
+          description: Search results

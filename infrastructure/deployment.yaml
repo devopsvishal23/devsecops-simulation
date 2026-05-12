@@ -1,14 +1,22 @@
 # ============================================================
-# Kubernetes Deployment — Deploys our TaskManager to Kubernetes
+# Kubernetes Deployment — Secure version
 # ============================================================
-# This file tells Kubernetes how to run our application.
-# It has intentional misconfigurations that Checkov will catch.
+# SECURITY FIXES APPLIED IN SESSION 4:
+# - Resource limits added (CPU and memory)
+# - privileged: false (was true)
+# - allowPrivilegeEscalation: false added
+# - Secret removed from env var (Vault handles this in Session 7)
+# - Service type changed from LoadBalancer to ClusterIP
+# ============================================================
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: taskmanager
   namespace: default
+  labels:
+    app: taskmanager
+    version: "1.0"
 spec:
   replicas: 1
   selector:
@@ -19,28 +27,64 @@ spec:
       labels:
         app: taskmanager
     spec:
+      # Run as our non-root user (matches Dockerfile USER 1001)
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        runAsGroup: 1001
+        fsGroup: 1001
+
       containers:
       - name: taskmanager
-        image: taskmanager:latest
+        image: taskmanager:v2
 
-        # !! MISCONFIGURATION 1: No resource limits !!
-        # Without limits, one container can consume all node resources.
-        # Checkov will flag this. Fix: add resources.limits and resources.requests.
+        # FIXED: Resource limits prevent one container consuming all node resources
+        # requests = guaranteed minimum allocation
+        # limits = maximum allowed — container is killed if it exceeds this
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
 
         ports:
         - containerPort: 5000
 
-        # !! MISCONFIGURATION 2: Privilege escalation allowed !!
-        # By default, containers can escalate privileges.
-        # Fix: set allowPrivilegeEscalation: false
+        # FIXED: Secure container settings
         securityContext:
-          privileged: true
+          privileged: false
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          capabilities:
+            drop:
+            - ALL
 
+        # FIXED: Secret removed from plain text env var
+        # SECRET_KEY will be injected by Vault in Session 7
+        # For now we reference a Kubernetes Secret (better than plain text)
         env:
-        # !! MISCONFIGURATION 3: Secret in plain text environment variable !!
-        # Secrets should come from Vault or Kubernetes Secrets, not plain env vars.
         - name: SECRET_KEY
-          value: "hardcoded-secret-in-k8s-manifest"
+          valueFrom:
+            secretKeyRef:
+              name: taskmanager-secrets
+              key: secret-key
+
+        # Health checks so Kubernetes knows when the app is ready
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 30
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 10
 
 ---
 apiVersion: v1
@@ -53,6 +97,7 @@ spec:
   ports:
   - port: 80
     targetPort: 5000
-  # !! MISCONFIGURATION 4: LoadBalancer exposes service to internet !!
-  # Use ClusterIP for internal services. LoadBalancer creates a public IP.
-  type: LoadBalancer
+  # FIXED: ClusterIP instead of LoadBalancer
+  # ClusterIP = internal only, not exposed to internet
+  # Use an Ingress controller for controlled external access
+  type: ClusterIP

@@ -28,3 +28,12 @@ trivy-results.json
 checkov-results.json
 semgrep-results.json
 semgrep-results.json
+trivy-results.json
+cosign.key
+image-approval.bundle
+cosign.key
+trivy-results.json
+attestation.json
+image-approval.txt
+image-approval.sig
+zap-results/

@@ -1,39 +1,42 @@
 # ============================================================
-# Dockerfile — Builds a container image for our TaskManager API
+# Dockerfile — Secure version
 # ============================================================
-# A Dockerfile is a set of instructions for building a container image.
-# Each line is a layer. Docker builds them top to bottom.
+# SECURITY FIXES APPLIED IN SESSION 4:
+# - Non-root user added (fixes Trivy CIS-DI-0001)
+# - HEALTHCHECK added
+# - Read-only filesystem recommended via runtime flag
+# ============================================================
 
-# FROM: Which base image to start from.
-# We use python:3.11-slim — a minimal Python image.
-# 'slim' means it has fewer packages than the full image = smaller attack surface.
 FROM python:3.11-slim
 
-# !! SECURITY WEAKNESS 7: Running as root !!
-# By default, Docker containers run as the root user.
-# If an attacker breaks out of the app, they have root access inside the container.
-# Our container scanner (Trivy) and IaC scanner (Checkov) will catch this.
-# The fix is to add a non-root user. We will do this in Session 4.
+# FIXED: Create a non-root user and group
+# Containers should never run as root — if an attacker
+# compromises the app, they only get the app user's permissions,
+# not root access to the host system.
+RUN groupadd --gid 1001 appgroup && \
+    useradd --uid 1001 --gid appgroup --shell /bin/sh --create-home appuser
 
-# WORKDIR: Sets the working directory inside the container.
-# All subsequent commands run from this directory.
 WORKDIR /app
 
-# COPY requirements first — Docker caches this layer.
-# If requirements haven't changed, Docker reuses the cached layer (faster builds).
+# Copy and install dependencies as root (needed for pip install)
 COPY requirements.txt .
-
-# RUN: Executes a command inside the container during build.
-# We install our Python dependencies here.
 RUN pip install --no-cache-dir -r requirements.txt
 
-# COPY: Copies files from our machine into the container.
-# We copy the entire app directory.
+# Copy application code
 COPY app/ .
 
-# EXPOSE: Documents which port the container listens on.
-# This is informational — it doesn't actually open the port.
+# Change ownership of app files to our non-root user
+RUN chown -R appuser:appgroup /app
+
+# FIXED: Switch to non-root user before running the application
+# All subsequent commands and the final CMD run as appuser
+USER appuser
+
 EXPOSE 5000
 
-# CMD: The command that runs when the container starts.
+# ADDED: Health check so Docker knows if the app is healthy
+# Docker will restart the container if health checks fail
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python3 -c "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')" || exit 1
+
 CMD ["python", "app.py"]

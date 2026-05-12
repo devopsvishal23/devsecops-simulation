@@ -9,11 +9,22 @@
 from flask import Flask, request, jsonify
 import sqlite3
 import os
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
 
 # FIXED Session 2: Secret key from environment variable
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'local-dev-only-not-for-production')
+
+# Rate limiter — limits requests per IP address
+# FIXED Session 5: Prevents brute force and denial of service attacks
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"],
+    storage_uri="memory://"
+)
 
 # Database path from environment variable
 DATABASE = os.environ.get('DATABASE_PATH', 'taskmanager.db')
@@ -111,11 +122,7 @@ def get_task(task_id):
 
     if task is None:
         # !! Still exposes database path — intentional for Session 5 !!
-        return jsonify({
-            "error": "Task not found",
-            "database": DATABASE,
-            "hint": "Check the task ID and try again"
-        }), 404
+        return jsonify({"error": "Task not found"}), 404
 
     return jsonify(dict(task))
 
@@ -199,4 +206,25 @@ def search_tasks():
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true", host=os.environ.get("FLASK_HOST", "127.0.0.1"), port=int(os.environ.get("FLASK_PORT", "5000")))
+    app.run(debug=os.environ.get("FLASK_DEBUG", "false").lower() == "true", host=os.environ.get("FLASK_HOST", "0.0.0.0"), port=int(os.environ.get("FLASK_PORT", "5000")))
+
+
+# ============================================================
+# SECURITY HEADERS — Added in Session 5
+# ============================================================
+# These headers protect against common web attacks:
+# - X-Content-Type-Options: prevents MIME sniffing attacks
+# - X-Frame-Options: prevents clickjacking attacks
+# - Content-Security-Policy: prevents XSS attacks
+# - X-XSS-Protection: enables browser XSS filter
+# ============================================================
+
+@app.after_request
+def add_security_headers(response):
+    """Add security headers to every response."""
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['Content-Security-Policy'] = "default-src 'self'"
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    return response
