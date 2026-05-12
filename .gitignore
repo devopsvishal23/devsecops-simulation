@@ -27,3 +27,4 @@ htmlcov/
 trivy-results.json
 checkov-results.json
 semgrep-results.json
+semgrep-results.json

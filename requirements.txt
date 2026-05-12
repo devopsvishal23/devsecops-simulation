@@ -1,12 +1,7 @@
-# These are the Python libraries our application needs.
-# Flask: the web framework
-# flask-cors: allows browsers from other origins to call our API
+# All packages updated to patched versions
+# Session 3: SCA scan found 17 CVEs across 5 packages
+# Fixed by updating to latest secure versions
 
-flask==2.3.3
-flask-cors==4.0.0
-
-# !! SECURITY WEAKNESS 6: Outdated dependency with known CVE !!
-# This version of Werkzeug has a known vulnerability.
-# Our SCA tool (pip-audit) will catch this in Session 3.
-werkzeug==2.3.6
-
+flask==3.1.3
+flask-cors==6.0.0
+requests==2.33.0
