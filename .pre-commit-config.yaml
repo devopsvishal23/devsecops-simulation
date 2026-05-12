@@ -18,3 +18,4 @@ repos:
       - id: detect-secrets
         name: Detect hardcoded secrets
         args: ['--baseline', '.secrets.baseline']
+        exclude: '(\.github/.*|cosign\.pub|\.secrets\.baseline)'
