@@ -228,3 +228,4 @@ def add_security_headers(response):
     response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
     return response
+AWS_ACCESS_KEY = 'AKIAIOSFODNN7EXAMPLE'
